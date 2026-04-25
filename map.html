@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagajGo - Emanet Noktaları</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/tr.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 9999;
+        }
+
+        .navbar .logo {
+            color: #3A37A6;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #3A37A6;
+        }
+
+        .navbar .nav-links .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .navbar .nav-links .language-selector i {
+            font-size: 16px;
+        }
+
+        #map {
+            position: fixed;
+            top: 60px; /* Navbar yüksekliği kadar boşluk */
+            left: 0;
+            right: 0;
+            bottom: 60px;
+            width: 100%;
+            height: calc(100% - 120px); /* Navbar ve bottom nav yüksekliğini çıkar */
+            z-index: 1;
+        }
+
+        .map-search-bar {
+            position: fixed;
+            top: 75px; /* Navbar + 15px boşluk */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            padding: 12px 15px;
+        }
+
+        .map-search-bar input {
+            flex: 1;
+            border: none;
+            padding: 8px;
+            font-size: 14px;
+            outline: none;
+            color: #3A37A6;
+        }
+
+        .map-search-bar .date-select {
+            border-left: 1px solid #eee;
+            padding-left: 12px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .map-search-bar .date-select.active {
+            color: #6C63FF;
+        }
+
+        .map-search-bar .date-select input {
+            border: none;
+            background: none;
+            padding: 8px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            width: 130px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+            }
+            
+            .navbar .logo {
+                font-size: 20px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .flatpickr-calendar {
+                width: 100%;
+                max-width: 340px;
+            }
+            
+            .flatpickr-day {
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+
+        .map-section {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 70px;
+            overflow: hidden;
+        }
+
+        .map-search-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: white;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .map-container {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f5f5f5;
+        }
+
+
+        .location-btn {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .marker {
+            width: 30px;
+            height: 30px;
+            background-color: #3A37A6;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .leaflet-container {
+            background: #f5f5f5 !important;
+        }
+
+        /* Zoom kontrollerinin stilini güncelle */
+        .leaflet-control-zoom {
+            border: none !important;
+            margin: 0 !important;
+            position: fixed !important;
+            right: 20px !important;
+            bottom: 100px !important;
+            z-index: 1000 !important;
+        }
+
+        .leaflet-control-zoom a {
+            width: 40px !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            border-radius: 50% !important;
+            background-color: white !important;
+            color: #333 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+            margin-bottom: 10px !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            transform: scale(1.1) !important;
+            background-color: white !important;
+        }
+
+        .leaflet-control-zoom-in {
+            margin-bottom: 10px !important;
+        }
+
+        /* Zoom kontrollerinin container'ını gizle */
+        .leaflet-top.leaflet-left {
+            display: none !important;
+        }
+
+        /* Diğer kontrolleri de gizle */
+        .leaflet-top.leaflet-right {
+            display: none !important;
+        }
+
+        .custom-marker {
+            background: none;
+            border: none;
+        }
+
+        .marker {
+            width: 40px;
+            height: 40px;
+            background-color: #3A37A6;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .marker:hover {
+            transform: scale(1.1);
+        }
+
+        .location-details {
+            display: none;
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 1000;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .location-details.show {
+            transform: translateY(0);
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .back-btn, .share-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .location-content {
+            position: relative;
+        }
+
+        .price-section {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 8px 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            margin-top: 10px;
+        }
+
+        .price-section .price-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .price-section .price-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .price-section .price-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .price-section .book-btn {
+            background: #3A37A6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .price-section .book-btn:hover {
+            background: #5b54d6;
+            transform: translateY(-2px);
+        }
+
+        .cancel-info {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .read-more {
+            color: #6C63FF;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .booking-info {
+            margin: 20px 0;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item i {
+            color: #6C63FF;
+            font-size: 20px;
+            margin-top: 3px;
+        }
+
+        .info-text strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-text p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .opening-hours {
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .opening-hours h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: #333;
+        }
+
+        .reviews {
+            margin: 20px 0;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stars {
+            color: #FFD700;
+        }
+
+        .book-btn {
+            background: #6C63FF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background: #5b54d6;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            z-index: 2000;
+            padding: 20px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        .mobile-menu-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .close-menu-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* Responsive düzenlemeler */
+        @media (max-width: 480px) {
+            .mobile-menu-overlay {
+                padding: 15px;
+            }
+
+            .mobile-menu-header {
+                padding: 10px 0;
+                margin-bottom: 20px;
+            }
+
+            .mobile-menu-overlay .nav-links a {
+                font-size: 16px;
+            }
+        }
+
+      
+
+        /* Flatpickr özelleştirmeleri */
+        .flatpickr-calendar {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .flatpickr-day {
+            border-radius: 8px;
+            margin: 2px;
+        }
+
+        .flatpickr-day.selected {
+            background: #6C63FF;
+            border-color: #6C63FF;
+        }
+
+        .flatpickr-day.today {
+            border-color: #6C63FF;
+            color: #6C63FF;
+        }
+
+        .flatpickr-months {
+            padding-top: 10px;
+        }
+
+        .flatpickr-current-month {
+            font-size: 16px;
+            padding: 8px 0;
+        }
+
+        .flatpickr-monthDropdown-months {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .flatpickr-weekday {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .search-bar {
+            background: #ffffff;
+        }
+
+        .search-bar button {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        .search-bar button:hover {
+            background: #3A37A6;
+            color: #ffffff;
+        }
+
+        .location-card {
+            background: #ffffff;
+            border: 1px solid #3A37A6;
+        }
+
+        .location-card:hover {
+            border-color: #CBF23D;
+        }
+
+        .location-name {
+            color: #3A37A6;
+        }
+
+        .location-address {
+            color: #666666;
+        }
+
+        .location-price {
+            color: #CBF23D;
+        }
+
+        .book-now-btn {
+            background: #3A37A6;
+            color: #ffffff;
+        }
+
+        .book-now-btn:hover {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        .rating {
+            color: #CBF23D;
+        }
+
+        .filter-btn {
+            background: #3A37A6;
+            color: #ffffff;
+        }
+
+        .filter-btn:hover {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        .filter-btn.active {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">BagajGo</a>
+        <div class="nav-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="map.html">Emanet Noktaları</a>
+            <a href="faq.html">SSS</a>
+            <a href="contact.html">İletişim</a>
+            <a href="#" class="language-selector">
+                <i class="fas fa-globe"></i>
+                TR
+            </a>
+        </div>
+    </nav>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+        <!-- Search Bar -->
+    <div class="map-search-bar">
+        <input type="text" placeholder="Konum ara..." value="Konum Seçiniz">
+        <div class="date-select">
+            <i class="far fa-calendar"></i>
+            <input type="text" id="mapDateSearch" placeholder="Tarih seçin" data-input>
+        </div>
+    </div>
+            
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="map.html">
+            <i class="fas fa-search"></i>
+            <span>Ara</span>
+        </a>
+        <a href="bookings.html">
+            <i class="far fa-calendar-check"></i>
+            <span>Rezervasyonlar</span>
+        </a>
+        <a href="courier.html">
+            <i class="fas fa-truck"></i>
+            <span>Kurye</span>
+        </a>
+        <a href="profile.html">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </a>
+    </nav>
+
+    <!-- Location Details Modal -->
+    <div class="location-details" id="locationDetails">
+        <div class="location-header">
+            <button class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="share-btn">
+                <i class="fas fa-share"></i>
+            </button>
+        </div>
+        
+        <div class="location-content">
+            <div class="location-image">
+                <img src="images/luggage.jpg" alt="Mağaza Görseli">
+            </div>
+            
+            <div class="location-info">
+                <span class="store-type">Özellikler</span>
+                <h2 class="store-name">Mağaza Adı</h2>
+                
+                <div class="store-meta">
+                    <div class="rating">
+                        <span class="score">4.9</span>
+                        <span class="status">· Mahalle ·</span>
+                    </div>
+                    <span class="distance">Bölge</span>
+                </div>
+
+                <div class="booking-info">
+                    <div class="info-item">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="info-text">
+                            <strong>Online rezervasyon gerekli</strong>
+                            <p>Mağaza nakit ödeme veya yürüyerek rezervasyon kabul etmemektedir. Teslim öncesi iptal ederseniz iade alabilirsiniz.</p>
+                            <a href="#" class="read-more">Daha fazla bilgi</a>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="info-text">
+                            <strong>Adres rezervasyon sonrası gösterilecektir</strong>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="info-text">
+                            <strong>10.000 TL'ye kadar sigorta</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opening-hours">
+                    <h3>
+                        <i class="far fa-clock"></i>
+                        Çalışma Saatleri
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <p class="hours">7/24 Hizmet</p>
+                </div>
+
+                <div class="reviews">
+                    <div class="review-header">
+                        <h2>4.9</h2>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span>20 değerlendirme</span>
+                    </div>
+                </div>
+
+                <div class="price-section">
+                    <div class="price-info">
+                        <span class="price-label">Başlangıç</span>
+                        <span class="price-amount">99.99 TL / gün</span>
+                    </div>
+                    <a href="booking-details.html" class="book-btn">Rezervasyon Yap</a>
+                </div>
+                <div class="cancel-info">
+                    Teslim öncesi iptal ederseniz iade alabilirsiniz.
+                    <a href="#" class="read-more">Daha fazla bilgi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on Cyprus
+        const map = L.map('map').setView([35.1856, 33.3823], 9);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Custom marker icon
+        const luggageIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div class="marker"><i class="fas fa-suitcase"></i></div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        // Emanet noktaları verisi
+        const storageLocations = [
+            {
+                id: 1,
+                name: "Lefkoşa Merkez",
+                address: "No:123",
+                rating: 4.9,
+                reviews: 1280,
+                price: 99.99,
+                coordinates: { lat: 35.1856, lng: 33.3823 },
+                features: ["7/24 Hizmet", "Kamera Güvenliği", "Ücretsiz WiFi"],
+                image: "images/lefkosa.jpg"
+            },
+            {
+                id: 2,
+                name: "Girne Liman",
+                address: "Liman Caddesi No:45",
+                rating: 4.8,
+                reviews: 956,
+                price: 89.99,
+                coordinates: { lat: 35.3417, lng: 33.3167 },
+                features: ["Deniz Manzarası", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location2.jpg"
+            },
+            {
+                id: 3,
+                name: "Gazimağusa",
+                address: "Atatürk Caddesi No:67",
+                rating: 4.7,
+                reviews: 845,
+                price: 94.99,
+                coordinates: { lat: 35.1250, lng: 33.9500 },
+                features: ["Tarihi Bölge", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location3.jpg"
+            },
+            {
+                id: 4,
+                name: "Güzelyurt",
+                address: "Merkez Caddesi No:89",
+                rating: 4.8,
+                reviews: 723,
+                price: 97.99,
+                coordinates: { lat: 35.1981, lng: 32.9936 },
+                features: ["Turistik Bölge", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location4.jpg"
+            },
+            {
+                id: 5,
+                name: "İskele",
+                address: "Sahil Caddesi No:12",
+                rating: 4.9,
+                reviews: 654,
+                price: 102.99,
+                coordinates: { lat: 35.2858, lng: 33.8417 },
+                features: ["Sahil Bölgesi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location5.jpg"
+            },
+            {
+                id: 6,
+                name: "Lefke",
+                address: "Atatürk Caddesi No:34",
+                rating: 4.7,
+                reviews: 589,
+                price: 95.99,
+                coordinates: { lat: 35.1106, lng: 32.8506 },
+                features: ["Tarihi Bölge", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location6.jpg"
+            },
+            {
+                id: 7,
+                name: "Girne Üniversite",
+                address: "Üniversite Kampüsü No:56",
+                rating: 4.6,
+                reviews: 478,
+                price: 92.99,
+                coordinates: { lat: 35.3000, lng: 33.3000 },
+                features: ["Öğrenci Bölgesi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location7.jpg"
+            },
+            {
+                id: 8,
+                name: "Lefkoşa Alışveriş Merkezi",
+                address: "Mall Caddesi No:78",
+                rating: 4.8,
+                reviews: 567,
+                price: 88.99,
+                coordinates: { lat: 35.2000, lng: 33.3500 },
+                features: ["Alışveriş Merkezi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location8.jpg"
+            },
+            {
+                id: 9,
+                name: "Gazimağusa Liman",
+                address: "Liman Caddesi No:90",
+                rating: 4.7,
+                reviews: 432,
+                price: 91.99,
+                coordinates: { lat: 35.1200, lng: 33.9500 },
+                features: ["Liman Bölgesi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location9.jpg"
+            },
+            {
+                id: 10,
+                name: "Girne Marina",
+                address: "Marina Caddesi No:23",
+                rating: 4.6,
+                reviews: 345,
+                price: 86.99,
+                coordinates: { lat: 35.3400, lng: 33.3200 },
+                features: ["Marina Bölgesi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location10.jpg"
+            },
+            // İstanbul Lokasyonları
+            {
+                id: 11,
+                name: "Taksim Meydanı",
+                address: "İstiklal Caddesi No:1",
+                rating: 4.8,
+                reviews: 2150,
+                price: 149.99,
+                coordinates: { lat: 41.0370, lng: 28.9850 },
+                features: ["Merkezi Konum", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location1.jpg"
+            },
+            {
+                id: 12,
+                name: "Sultanahmet",
+                address: "Ayasofya Meydanı No:15",
+                rating: 4.9,
+                reviews: 1890,
+                price: 159.99,
+                coordinates: { lat: 41.0054, lng: 28.9768 },
+                features: ["Tarihi Bölge", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location2.jpg"
+            },
+            {
+                id: 13,
+                name: "Kadıköy",
+                address: "Bahariye Caddesi No:45",
+                rating: 4.7,
+                reviews: 1650,
+                price: 139.99,
+                coordinates: { lat: 40.9906, lng: 29.0238 },
+                features: ["Sahil Bölgesi", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location3.jpg"
+            },
+            {
+                id: 14,
+                name: "Beşiktaş",
+                address: "Barbaros Bulvarı No:78",
+                rating: 4.8,
+                reviews: 1420,
+                price: 144.99,
+                coordinates: { lat: 41.0430, lng: 29.0094 },
+                features: ["Merkezi Konum", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location4.jpg"
+            },
+            {
+                id: 15,
+                name: "Atatürk Havalimanı",
+                address: "Havalimanı Terminal 1",
+                rating: 4.9,
+                reviews: 2340,
+                price: 169.99,
+                coordinates: { lat: 40.9769, lng: 28.8147 },
+                features: ["Havalimanı", "Kamera Güvenliği", "7/24 Hizmet"],
+                image: "images/location5.jpg"
+            }
+        ];
+
+        // Add markers to the map
+        storageLocations.forEach(location => {
+            const marker = L.marker([location.coordinates.lat, location.coordinates.lng], { icon: luggageIcon })
+                .addTo(map);
+
+            // Add click event to marker
+            marker.on('click', () => {
+                // Check if the page is opened in a modal
+                const isModal = new URLSearchParams(window.location.search).get('isModal');
+                
+                if (isModal) {
+                    // Send the selected point data to the parent window
+                    window.parent.postMessage({
+                        type: 'storagePointSelected',
+                        point: {
+                            id: location.id,
+                            name: location.name,
+                            address: location.address,
+                            rating: location.rating,
+                            price: location.price,
+                            coordinates: location.coordinates
+                        }
+                    }, '*');
+                } else {
+                    // Show location details as normal
+                    showLocationDetails(location);
+                }
+            });
+        });
+
+        function showLocationDetails(location) {
+            const locationDetails = document.getElementById('locationDetails');
+            
+            // Update location details content
+            locationDetails.querySelector('.store-type').textContent = location.features.join(", ");
+            locationDetails.querySelector('.store-name').textContent = location.name;
+            locationDetails.querySelector('.score').textContent = location.rating;
+            locationDetails.querySelector('.status').textContent = `· ${location.address.split(" ")[1]} ·`;
+            locationDetails.querySelector('.distance').textContent = location.address.split(" ")[2];
+            locationDetails.querySelector('.price-section .price-amount').textContent = `${location.price} TL / gün`;
+            locationDetails.querySelector('.reviews span:last-child').textContent = `${location.reviews} değerlendirme`;
+
+            // Show location details
+            locationDetails.style.display = 'block';
+            locationDetails.classList.add('show');
+        }
+
+        // Add close functionality to back button
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            const locationDetails = document.getElementById('locationDetails');
+            locationDetails.classList.remove('show');
+            setTimeout(() => {
+                locationDetails.style.display = 'none';
+            }, 300);
+        });
+
+        // Enable map interactions
+        map.dragging.enable();
+        map.touchZoom.enable();
+        map.doubleClickZoom.enable();
+        map.scrollWheelZoom.enable();
+        map.boxZoom.enable();
+        map.keyboard.enable();
+        if (map.tap) map.tap.enable();
+
+        // Add mobile menu functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Location details içindeki book-btn'ye click event listener ekle
+        document.querySelector('.book-btn').addEventListener('click', function() {
+            const locationDetails = document.getElementById('locationDetails');
+            const storeName = locationDetails.querySelector('.store-name').textContent;
+            const storeType = locationDetails.querySelector('.store-type').textContent;
+            const rating = locationDetails.querySelector('.score').textContent;
+            const hours = locationDetails.querySelector('.status').textContent.replace('·', '').replace('·', '').trim();
+            const price = locationDetails.querySelector('.price-amount').textContent;
+
+            // URL parametrelerini oluştur
+            const params = new URLSearchParams({
+                store: storeName,
+                type: storeType,
+                rating: rating,
+                hours: hours,
+                price: price
+            });
+
+            // booking-details.html sayfasına yönlendir
+            window.location.href = `booking-details.html?${params.toString()}`;
+        });
+    </script>
+
+    <!-- Add this HTML just before the closing body tag -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none;">
+                    <h1>BagajGo</h1>
+                </a>
+            </div>
+            <button class="close-menu-btn" aria-label="Menüyü kapat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i>Ana Sayfa</a></li>
+            <li><a href="map.html"><i class="fas fa-map-marker-alt"></i>Emanet Noktaları</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i>SSS</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i>İletişim</a></li>
+            <li><a href="profile.html" class="login-btn"><i class="fas fa-user"></i>Profil</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // Update the mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu-btn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Sayfa scrollunu engelle
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = ''; // Sayfa scrollunu tekrar etkinleştir
+        });
+
+        // Menü linklerine tıklandığında menüyü kapat
+        document.querySelectorAll('#mobileMenu .nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Flatpickr ayarları
+            const datePickr = flatpickr("#mapDateSearch", {
+                locale: "tr",
+                dateFormat: "d F Y",
+                minDate: "today",
+                disableMobile: false,
+                enableTime: false,
+                defaultDate: "today",
+                altInput: true,
+                altFormat: "d F Y",
+                monthSelectorType: "static",
+                position: "below",
+                theme: "material_blue",
+                animate: true,
+                allowInput: true,
+                clickOpens: true,
+                
+                onOpen: function(selectedDates, dateStr, instance) {
+                    instance.element.parentNode.classList.add('active');
+                },
+                
+                onClose: function(selectedDates, dateStr, instance) {
+                    instance.element.parentNode.classList.remove('active');
+                }
+            });
+
+            // Takvim simgesine tıklama olayını ekle
+            const calendarIcon = document.querySelector('.date-select i.far.fa-calendar');
+            if (calendarIcon) {
+                calendarIcon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const input = document.querySelector('#mapDateSearch');
+                    if (input) {
+                        input.focus();
+                        datePickr.open();
+                    }
+                });
+            }
+
+            // Input'a tıklama olayını ekle
+            const dateInput = document.querySelector('#mapDateSearch');
+            if (dateInput) {
+                dateInput.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    datePickr.open();
+                });
+            }
+        });
+    </script>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

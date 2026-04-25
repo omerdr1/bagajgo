@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagajGo - Keşfet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .discover-section {
+            background: #3A37A6;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .discover-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .discover-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: fit-content;
+        }
+
+        .discover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .discover-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .discover-content {
+            padding: 20px;
+            text-align: center;
+            background: white;
+        }
+
+        .discover-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #CBF23D;
+            color: #3A37A6;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .discover-btn:hover {
+            background: #b8d936;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .discover-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .discover-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="discover-section">
+        <div class="discover-container">
+            <div class="discover-card">
+                <img src="images/team.jpg" alt="İletişim" class="discover-image">
+                <div class="discover-content">
+                    <a href="mailto:ituatomteam@gmail.com" class="discover-btn">Bize Ulaş</a>
+                </div>
+            </div>
+            <div class="discover-card">
+                <img src="images/bagajgo.jpg" alt="BagajGo" class="discover-image">
+                <div class="discover-content">
+                    <a href="index.html" class="discover-btn">BagajGo'ya Git</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

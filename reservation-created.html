@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagajGo - Rezervasyon Oluşturuldu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            padding: 10px;
+            border-radius: 50%;
+            margin-right: 15px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button:hover {
+            background: #f5f5f5;
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .success-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: #4CAF50;
+            margin: 40px 0 20px;
+        }
+
+        .success-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .booking-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-label {
+            color: #666;
+        }
+
+        .item-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .view-bookings-button {
+            display: block;
+            background: #3A37A6;
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+
+        .view-bookings-button:hover {
+            background: #5b54d6;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-button" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="page-title">Rezervasyon Oluşturuldu</h1>
+    </header>
+
+    <div class="success-container">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h2 class="success-title">Rezervasyonunuz Başarıyla Oluşturuldu!</h2>
+
+        <div class="booking-summary">
+            <h3 class="summary-title">Rezervasyon Özeti</h3>
+            <div class="summary-item">
+                <span class="item-label">Rezervasyon No:</span>
+                <span class="item-value">#123456</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-label">Tarih:</span>
+                <span class="item-value">01 Mayıs 2024</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-label">Süre:</span>
+                <span class="item-value">3 Gün</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-label">Lokasyon:</span>
+                <span class="item-value">İstanbul Havalimanı</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-label">Toplam Tutar:</span>
+                <span class="item-value">₺150.00</span>
+            </div>
+        </div>
+
+        <a href="bookings.html" class="view-bookings-button">
+            Rezervasyonlarımı Görüntüle
+        </a>
+    </div>
+
+    <script>
+        // Burada gerekli JavaScript kodları eklenebilir
+    </script>
+</body>
+</html> 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagajGo - Kayıt Ol</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .signup-container {
+            background: #ffffff;
+        }
+
+        .signup-header {
+            background: #3A37A6;
+            color: #ffffff;
+        }
+
+        .signup-form {
+            background: #ffffff;
+        }
+
+        .form-input {
+            border: 1px solid #3A37A6;
+        }
+
+        .form-input:focus {
+            border-color: #CBF23D;
+        }
+
+        .signup-btn {
+            background: #3A37A6;
+            color: #ffffff;
+        }
+
+        .signup-btn:hover {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        .login-link {
+            color: #3A37A6;
+        }
+
+        .login-link:hover {
+            color: #CBF23D;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="logo" style="text-decoration: none; font-weight: 600; font-size: 24px;">
+                BagajGo
+            </a>
+            <div class="nav-links">
+                <a href="#" class="language-selector">
+                    <i class="fas fa-globe"></i>
+                </a>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Kayıt Ol</h2>
+                <p>Hemen ücretsiz hesap oluşturun!</p>
+            </div>
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label for="name">Ad Soyad</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Şifre Tekrar</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="auth-btn">Kayıt Ol</button>
+            </form>
+            <div class="auth-links">
+                <p>Zaten hesabınız var mı? <a href="login.html">Giriş Yapın</a></p>
+            </div>
+            <div class="divider">
+                <span>veya</span>
+            </div>
+            <div class="social-login">
+                <button class="social-btn">
+                    <i class="fab fa-google"></i>
+                    Google ile kayıt ol
+                </button>
+                <button class="social-btn">
+                    <i class="fab fa-apple"></i>
+                    Apple ile kayıt ol
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="map.html">
+            <i class="fas fa-search"></i>
+            <span>Ara</span>
+        </a>
+        <a href="bookings.html">
+            <i class="far fa-calendar-check"></i>
+            <span>Rezervasyonlar</span>
+        </a>
+        <a href="courier.html">
+            <i class="fas fa-truck"></i>
+            <span>Kurye</span>
+        </a>
+        <a href="profile.html">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </a>
+    </nav>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+
+            const user = authManager.register({
+                name,
+                email,
+                password
+            });
+
+            if (user) {
+                // Başarılı kayıt
+                window.location.href = 'profile.html';
+            }
+        });
+
+        // Sayfa yüklendiğinde kullanıcı zaten giriş yapmışsa profile yönlendir
+        window.addEventListener('load', () => {
+            if (authManager.isAuthenticated()) {
+                window.location.href = 'profile.html';
+            }
+        });
+    </script>
+</body>
+</html> 

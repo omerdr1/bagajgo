@@ -1,0 +1,296 @@
+/* Map Section Styles */
+.map-section {
+    padding-top: 60px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-search-container {
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.search-input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input i {
+    color: #333333;
+}
+
+.search-input input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    width: 100%;
+    color: #333333;
+}
+
+.date-input {
+    padding: 0.5rem;
+    color: #3A37A6;
+    font-size: 0.9rem;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #333333;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* Map Container */
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+/* Location Button */
+.location-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.location-btn i {
+    color: #3A37A6;
+    font-size: 1.2rem;
+}
+
+/* Location Details */
+.location-details {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+}
+
+.location-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 101;
+}
+
+.back-btn, .share-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.location-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+
+
+.location-info {
+    padding: 1.5rem;
+}
+
+.store-type {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.store-name {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.store-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.score {
+    color: #3A37A6;
+}
+
+.status {
+    color: #32D74B;
+}
+
+.distance {
+    color: #666;
+}
+
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    gap: 1rem;
+}
+
+.info-item i {
+    color: #3A37A6;
+    font-size: 1.2rem;
+}
+
+.info-text strong {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.info-text p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.read-more {
+    color: #3A37A6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: #FF6584;
+}
+
+.opening-hours {
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.opening-hours h3 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.opening-hours i {
+    color: #666;
+}
+
+.hours {
+    color: #666;
+}
+
+.reviews {
+    padding: 1.5rem 0;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.review-header h2 {
+    font-size: 2rem;
+}
+
+.stars {
+    color: #ffd700;
+}
+
+.price-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.book-btn {
+    background-color: #3A37A6;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.book-btn:hover {
+    background-color: #FF6584;
+    transform: translateY(-2px);
+}
+
+.logo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3A37A6;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.navbar {
+    min-height: 60px;
+} 

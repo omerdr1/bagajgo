@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagajGo - Bagaj ve Eşya Depolama</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/tr.js"></script>
+    <style>
+        .hero-section {
+            background: #3A37A6;
+            min-height: 100vh;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            color: #ffffff;
+            font-size: 14px;
+    }
+
+    .navbar {
+            padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .logo {
+        font-size: 24px;
+            font-weight: 700;
+            color: #CBF23D;
+            text-decoration: none;
+        display: flex;
+        align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin: 30px auto;
+        text-align: center;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #CBF23D;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .static-text {
+            color: #CBF23D;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            margin-top: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .search-input {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 40px 12px 40px;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #F8F8F8;
+        }
+
+        .search-input input:focus {
+            border-color: #3A37A6;
+            background: white;
+        }
+
+        .search-input i.fa-magnifying-glass {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .search-input i.fa-eye {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            cursor: pointer;
+        }
+
+        .search-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .option-box {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #F8F8F8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-box:hover {
+            border-color: #3A37A6;
+            background: white;
+        }
+
+        .option-box i {
+            color: #666;
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .option-box input,
+        .option-box select {
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #333;
+            width: 100%;
+            cursor: pointer;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .search-button {
+            width: 100%;
+            padding: 14px;
+            background: #CBF23D;
+            color: #3A37A6;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins';
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .search-button:hover {
+            background: #4A4CDF;
+            transform: translateY(-1px);
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 60px;
+            color: #ffffff;
+        }
+
+        .stats-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stats-text {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .rating {
+        display: flex;
+        justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 20px;
+            color: #CBF23D;
+            font-size: 24px;
+        }
+
+        .testimonial {
+            text-align: center;
+            max-width: 500px;
+            margin: 30px auto;
+            font-style: italic;
+            color: #ffffff;
+        }
+
+        .user-info {
+            margin-top: 20px;
+            font-style: normal;
+        color: #ffffff;
+    }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .search-box, .search-options {
+                flex-direction: column;
+            }
+
+            .search-input input {
+                padding: 12px 35px;
+        font-size: 14px;
+            }
+
+            .option-box {
+                padding: 10px;
+            }
+
+            .option-box input,
+            .option-box select {
+                font-size: 13px;
+            }
+
+            .stats-number {
+                font-size: 28px;
+            }
+
+            .stats-text {
+                font-size: 16px;
+            }
+        }
+
+        .city-slider {
+            padding: 60px 0;
+            background: #f8f9fa;
+        overflow: hidden;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            color: #CBF23D;
+            text-shadow: 2px 2px 4px rgba(203, 242, 61, 0.3);
+
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .slider-container {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .slider-wrapper {
+        overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 20px 0;
+    }
+
+    .slider-wrapper::-webkit-scrollbar {
+            display: none;
+    }
+
+    .slider-track {
+        display: flex;
+        gap: 20px;
+            padding: 0 20px;
+    }
+
+        .city-card {
+            flex: 0 0 300px;
+        scroll-snap-align: start;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .city-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .city-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .city-image img {
+            width: 100%;
+        height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .city-card:hover .city-image img {
+            transform: scale(1.05);
+        }
+
+        .city-info {
+            padding: 20px;
+        }
+
+        .city-info h3 {
+            font-size: 20px;
+        color: #333;
+            margin: 0 0 10px 0;
+    }
+
+        .city-stats {
+            display: flex;
+            justify-content: space-between;
+        color: #666;
+            font-size: 14px;
+        }
+
+        .city-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .city-stats i {
+            color: #3A37A6;
+        }
+
+        @media (max-width: 768px) {
+            .city-card {
+                flex: 0 0 260px;
+            }
+
+            .city-image {
+                height: 160px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+                color: #333333;
+                text-shadow: 2px 2px 4px rgba(203, 242, 61, 0.3);
+
+            }
+        }
+
+        /* Scroll hint animation */
+        @keyframes scrollHint {
+            0% { transform: translateX(0); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+    }
+
+    .slider-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50px;
+            background: linear-gradient(to right, transparent, #f8f9fa);
+        pointer-events: none;
+    }
+
+        .price-calculator {
+        max-width: 600px;
+            margin: 40px auto;
+        padding: 0 20px;
+    }
+
+        .calculator-card {
+        background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .calculator-header {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .calculator-header h3 {
+            font-size: 24px;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+
+        .calculator-header p {
+        color: #666;
+            margin: 0;
+            font-size: 14px;
+    }
+
+        .calculator-form {
+        display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: #3A37A6;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        color: #333;
+            font-size: 14px;
+            font-weight: 500;
+    }
+
+        .form-group label i {
+        color: #3A37A6;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #523cb5;
+            box-shadow: 0 0 0 2px rgba(82, 60, 181, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .calculate-btn {
+            background: #3A37A6;
+        color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+        font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .calculate-btn:hover {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-card {
+                padding: 20px;
+            }
+
+            .calculator-header h3 {
+                font-size: 20px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .calculate-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        .price-result {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .result-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .price-info {
+            text-align: center;
+        }
+
+        .price-label {
+            display: block;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .price-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .currency {
+            font-size: 20px;
+            margin-left: 4px;
+        }
+
+        .time-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .time-info i {
+            color: #523cb5;
+        }
+
+        .book-btn {
+            display: block;
+            background: #3A37A6;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            padding: 14px;
+        border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background: #CBF23D;
+            color: #3A37A6;
+        }
+
+        @media (max-width: 768px) {
+            .result-card {
+                padding: 20px;
+            }
+
+            .price-amount {
+                font-size: 28px;
+            }
+
+            .currency {
+                font-size: 18px;
+            }
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #CBF23D;
+            color: #3A37A6;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(203, 242, 61, 0.2);
+        }
+
+        .rating-badge i {
+            color: #3A37A6;
+            font-size: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+    @media (max-width: 768px) {
+            .rating-badge {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+            
+            .rating-badge i {
+                font-size: 14px;
+            }
+        }
+
+
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        max-width: 800px;
+            margin: 40px auto 0;
+        padding: 0 20px;
+    }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .step-illustration {
+            flex: 0 0 200px;
+            height: 160px;
+        }
+
+        .step-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+            gap: 8px;
+    }
+
+        .step-number {
+            color: #3A37A6;
+            font-weight: 700;
+    }
+
+        .step-content p {
+            font-size: 16px;
+            color: #666;
+        margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .steps-container {
+                gap: 32px;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .step-illustration {
+                flex: 0 0 120px;
+                height: 120px;
+            }
+
+            .step-content h3 {
+                justify-content: center;
+                font-size: 20px;
+            }
+
+            .step-content p {
+                font-size: 14px;
+            }
+        }
+
+        .service-card {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-icon i {
+            font-size: 28px;
+            color: #3A37A6;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            color: #333;
+        margin-bottom: 8px;
+    }
+
+        .service-card p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+    }
+
+    @media (max-width: 768px) {
+            .service-card {
+                padding: 20px;
+            }
+
+            .service-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .service-icon i {
+                font-size: 24px;
+            }
+
+            .service-card h3 {
+                font-size: 18px;
+            }
+
+            .service-card p {
+                font-size: 13px;
+            }
+        }
+
+        /* Flatpickr özelleştirmeleri */
+        .flatpickr-calendar {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .flatpickr-day.selected {
+            background: #6B4BFF !important;
+            border-color: #6B4BFF !important;
+        }
+
+        .flatpickr-day:hover {
+            background: #f0ebff !important;
+            border-color: #f0ebff !important;
+    }
+
+        .animated-text-container {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .animated-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #CBF23D;
+            text-shadow: 2px 2px 4px rgba(203, 242, 61, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Cursor blink animation */
+        @keyframes blink {
+            0%, 100% { border-color: transparent }
+            50% { border-color: #3A37A6 }
+        }
+
+        /* Remove old animations */
+        .animated-text-prefix {
+            display: none;
+        }
+
+        .features-section {
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .features-slider-container {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .features-slider {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .features-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .feature-card {
+            flex: 0 0 300px;
+            scroll-snap-align: center;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: #3A37A6;
+            transform: scale(1.1);
+        }
+
+        .feature-icon i {
+            font-size: 30px;
+            color: #3A37A6;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon i {
+            color: #ffffff;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .slider-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: #3A37A6;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .feature-card {
+                flex: 0 0 260px;
+                padding: 20px;
+            }
+
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .feature-icon i {
+                font-size: 24px;
+            }
+
+            .feature-card h3 {
+                font-size: 18px;
+            }
+
+            .feature-card p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+
+
+            <nav class="navbar">
+                <a href="index.html" class="logo" style="text-decoration: none; font-weight: 600; font-size: 24px;">
+                    BagajGo
+                </a>
+                <div class="nav-links">
+                    <a href="#" class="language-selector">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="hero-content">
+                <h1>
+                    <span class="animated-text-container">
+                        <span class="animated-text"></span>
+                    </span>
+                    <span class="static-text">En Yakın Bagaj Depolama Noktası</span>
+                </h1>
+                <div class="search-container">
+                    <div class="search-box">
+                        <div class="search-input">
+                            <i class="fas fa-magnifying-glass"></i>
+                            <input type="text" placeholder="İstanbul" />
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="search-options">
+                            <div class="option-box">
+                                <i class="far fa-calendar"></i>
+                                <input type="text" id="datepicker" placeholder="Bugün" readonly />
+                            </div>
+                            <div class="option-box">
+                                <i class="fas fa-suitcase"></i>
+                                <select id="bagCount">
+                                    <option value="1">1 Bagaj</option>
+                                    <option value="2" selected>2 Bagaj</option>
+                                    <option value="3">3 Bagaj</option>
+                                    <option value="4">4 Bagaj</option>
+                                    <option value="5">5 Bagaj</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="search-button">
+                            Depolama Noktası Bul
+                        </button>
+                    </div>
+                </div>
+<br>
+                <div class="rating-badge" >
+                    <i class="fas fa-star"></i>
+                    <span>4.7/5 - 5000+ değerlendirme</span>
+                </div>
+    </section>
+
+    <!-- City Slider Section -->
+    <section class="city-slider">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popüler Şehirler</h2>
+                <p>Türkiye ve KKTC'nin her yerinde!</p>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <div class="city-card" onclick="window.location.href='map.html?city=istanbul'">
+                            <div class="city-image">
+                                <img src="images/location1.webp" alt="İstanbul">
+                            </div>
+                            <div class="city-info">
+                                <h3>İstanbul</h3>
+                                <div class="city-stats">
+                                    <span><i class="fas fa-map-marker-alt"></i> 50+ Nokta</span>
+                                    <span><i class="fas fa-star"></i> 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="city-card" onclick="window.location.href='map.html?city=ankara'">
+                            <div class="city-image">
+                                <img src="images/lefkosa.jpg" alt="Lefkoşa">
+                            </div>
+                            <div class="city-info">
+                                <h3>Lefkoşa</h3>
+                                <div class="city-stats">
+                                    <span><i class="fas fa-map-marker-alt"></i> 30+ Nokta</span>
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="city-card" onclick="window.location.href='map.html?city=izmir'">
+                            <div class="city-image">
+                                <img src="images/girne.jpg" alt="Girne">
+                            </div>
+                            <div class="city-info">
+                                <h3>Girne</h3>
+                                <div class="city-stats">
+                                    <span><i class="fas fa-map-marker-alt"></i> 25+ Nokta</span>
+                                    <span><i class="fas fa-star"></i> 4.9</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="city-card" onclick="window.location.href='map.html?city=antalya'">
+                            <div class="city-image">
+                                <img src="images/antalya.jpg" alt="Antalya">
+                            </div>
+                            <div class="city-info">
+                                <h3>Antalya</h3>
+                                <div class="city-stats">
+                                    <span><i class="fas fa-map-marker-alt"></i> 20+ Nokta</span>
+                                    <span><i class="fas fa-star"></i> 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="city-card" onclick="window.location.href='map.html?city=bursa'">
+                            <div class="city-image">
+                                <img src="images/gazimagusa.jpg" alt="Gazimağusa">
+                            </div>
+                            <div class="city-info">
+                                <h3>Gazimağusa</h3>
+                                <div class="city-stats">
+                                    <span><i class="fas fa-map-marker-alt"></i> 15+ Nokta</span>
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Taksi/Kurye Hizmeti Bölümü -->
+    <section class="delivery-service">
+        <div class="container">
+            <div class="section-header">
+                <h2>Bagaj Taşıma Hizmeti</h2>
+                <p>Bagajınızı güvenli bir şekilde taşıyalım</p>
+            </div>
+
+            <!-- Hizmet Seçenekleri Slider -->
+            <div class="service-slider">
+                <div class="slider-track">
+                    <div class="service-card" onclick="window.location.href='map.html'">
+                        <div class="service-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Emanet Noktasına Bırakma</h3>
+                        <p>Size en yakın emanet noktasına bagajınızı bırakın</p>
+                    </div>
+                    <div class="service-card" onclick="window.location.href='courier.html'">
+                        <div class="service-icon">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <h3>Kurye ile Teslim</h3>
+                        <p>Kuryemiz bulunduğunuz konumdan bagajınızı alır</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiyat Hesaplama Formu -->
+            <div class="price-calculator">
+                <div class="calculator-card">
+                    <div class="calculator-header">
+                        <h3>Anlık Fiyat Hesaplama</h3>
+                        <p>Hemen fiyat öğrenin</p>
+                    </div>
+                    <div class="calculator-form">
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-map-marker-alt"></i>
+                                Alış Konumu
+                            </label>
+                            <input type="text" id="pickupLocation" placeholder="Nereden alınacak?">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-map-marker-alt"></i>
+                                Teslim Konumu
+                            </label>
+                            <input type="text" id="dropoffLocation" placeholder="Nereye teslim edilecek?">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-suitcase"></i>
+                                Bagaj Tipi
+                            </label>
+                            <select id="luggageType">
+                                <option value="">Bagaj boyutu seçin</option>
+                                <option value="small">Küçük Bavul (55x35x25 cm)</option>
+                                <option value="medium">Orta Bavul (70x45x30 cm)</option>
+                                <option value="large">Büyük Bavul (90x60x40 cm)</option>
+                            </select>
+                        </div>
+                        <button class="calculate-btn" onclick="calculatePrice()">
+                            Fiyat Hesapla
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiyat Sonuç Kartı -->
+            <div id="priceResult" class="price-result" style="display: none;">
+                <div class="result-card">
+                    <div class="result-content">
+                        <div class="price-info">
+                            <span class="price-label">Tahmini Fiyat</span>
+                            <div class="price-amount">
+                                <span id="calculatedPrice">0.00</span>
+                                <span class="currency">TL</span>
+                            </div>
+                        </div>
+                        <div class="time-info">
+                            <i class="fas fa-clock"></i>
+                            <span>Tahmini Süre: <strong><span id="estimatedTime">0</span> dk</strong></span>
+                        </div>
+                        <a href="courier.html" class="book-btn">
+                            Hemen Rezervasyon Yap
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nasıl Çalışır?</h2>
+                <p>4 Kolay Adımda Bagaj Depolama</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-illustration">
+                        <img src="images/locate1.svg" alt="Konum Bul">
+                    </div>
+                    <div class="step-content">
+                        <h3><span class="step-number">1.</span> Konum Bul</h3>
+                        <p>Size en yakın bagaj depolama noktasını bulun</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-illustration">
+                        <img src="images/book2.svg" alt="Rezervasyon">
+                    </div>
+                    <div class="step-content">
+                        <h3><span class="step-number">2.</span> Rezervasyon Yap</h3>
+                        <p>Online olarak hızlıca rezervasyonunuzu yapın</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-illustration">
+                        <img src="images/store3.svg" alt="Depolama">
+                    </div>
+                    <div class="step-content">
+                        <h3><span class="step-number">3.</span> Bagajını Bırak</h3>
+                        <p>Bagajlarınızı güvenle emanet edin</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-illustration">
+                        <img src="images/enjoy4.svg" alt="Keşfet">
+                    </div>
+                    <div class="step-content">
+                        <h3><span class="step-number">4.</span> Şehri Keşfet</h3>
+                        <p>Bagajsız bir şekilde özgürce gezin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Neden BagajGo?</h2>
+                <p>Gezginler için en akıllı çözüm</p>
+            </div>
+            
+            <div class="features-slider-container">
+                <div class="features-slider">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Yerel İşletmelerle Buluşma</h3>
+                        <p>Şehrin her yerinde, güvenilir işletmelerde bagajınızı güvenle bırakın</p>
+                    </div>
+
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Esnek Süre</h3>
+                        <p>Check-in/check-out saatlerinde bile bagajınız güvende</p>
+                    </div>
+
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Kolay Rezervasyon</h3>
+                        <p>Tek tıkla en yakın noktayı bulun ve hemen rezervasyon yapın</p>
+                    </div>
+
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Güvenli Depolama</h3>
+                        <p>Sigortalı ve onaylı noktalarda bagajlarınız güvende</p>
+                    </div>
+
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>Uygun Fiyat</h3>
+                        <p>Sadece kullandığınız süre kadar ödeme yapın</p>
+                    </div>
+
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3>Geniş Ağ</h3>
+                        <p>Türkiye'nin her şehrinde yanınızdayız</p>
+                    </div>
+                </div>
+                
+                <div class="slider-dots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="map.html">
+            <i class="fas fa-search"></i>
+            <span>Ara</span>
+        </a>
+        <a href="bookings.html">
+            <i class="far fa-calendar-check"></i>
+            <span>Rezervasyonlar</span>
+        </a>
+        <a href="courier.html">
+            <i class="fas fa-truck"></i>
+            <span>Kurye</span>
+        </a>
+        <a href="profile.html">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </a>
+    </nav>
+
+    <script src="js/main.js"></script>
+    <script>
+    function searchAndRedirect() {
+        const location = document.getElementById('locationSearch').value;
+        const date = document.getElementById('dateSearch').value;
+        
+        // Add a loading animation
+        const searchBtn = document.querySelector('.search-btn');
+        searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+        
+        // Simulate a brief loading time
+        setTimeout(() => {
+            window.location.href = 'map.html';
+        }, 1000);
+    }
+
+    // Add scroll animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+    });
+
+    // Slider fonksiyonalitesi
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.querySelector('.slider-wrapper');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        // Mouse events
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events için ek kontrol gerekmez, varsayılan davranış yeterli
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize flatpickr
+        flatpickr("#datepicker", {
+            locale: "tr",
+            dateFormat: "d F Y",
+            minDate: "today",
+            defaultDate: "today",
+            altInput: true,
+            altFormat: "d F Y",
+            disableMobile: true,
+            allowInput: true,
+            static: true,
+            onChange: function(selectedDates, dateStr, instance) {
+                const input = instance.altInput;
+                if (selectedDates[0]) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    selectedDates[0].setHours(0, 0, 0, 0);
+                    
+                    if (selectedDates[0].getTime() === today.getTime()) {
+                        input.value = 'Bugün';
+                    }
+                }
+            }
+        });
+
+        // Handle search button click
+        document.querySelector('.search-button').addEventListener('click', function() {
+            window.location.href = 'map.html';
+        });
+    });
+
+    // FAQ açılır menü fonksiyonalitesi
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Diğer açık olan FAQ itemlarını kapat
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Tıklanan FAQ itemını aç/kapat
+                item.classList.toggle('active');
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const words = ['Size', 'Otelinize', 'Evinize', 'İşinize', 'Arkadaşınıza', 'Ailenize',  ];
+        const textElement = document.querySelector('.animated-text');
+        let wordIndex = 0;
+        
+        async function typeWord(word) {
+            for(let i = 0; i < word.length; i++) {
+                textElement.textContent = word.substring(0, i + 1);
+                await new Promise(resolve => setTimeout(resolve, 100)); // Typing speed
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait at end
+            
+            for(let i = word.length; i > 0; i--) {
+                textElement.textContent = word.substring(0, i - 1);
+                await new Promise(resolve => setTimeout(resolve, 50)); // Deleting speed
+            }
+            await new Promise(resolve => setTimeout(resolve, 300)); // Wait before next word
+        }
+        
+        async function animateText() {
+            while(true) {
+                await typeWord(words[wordIndex]);
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+        }
+        
+        textElement.style.borderRight = '2px solid #523cb5';
+        textElement.style.animation = 'blink 0.75s step-end infinite';
+        animateText();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.querySelector('.features-slider');
+        const dotsContainer = document.querySelector('.slider-dots');
+        const cards = document.querySelectorAll('.feature-card');
+        
+        // Create dots
+        cards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('slider-dot');
+            if (index === 0) dot.classList.add('active');
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.slider-dot');
+        
+        // Update active dot based on scroll position
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = cards[0].offsetWidth + 30; // card width + gap
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        // Click on dot to scroll to corresponding card
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const cardWidth = cards[0].offsetWidth + 30;
+                slider.scrollTo({
+                    left: index * cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Touch events for better mobile experience
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    });
+    </script>
+</body>
+</html> 

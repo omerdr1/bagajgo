@@ -1,0 +1,20 @@
+{
+  "name": "bagajgo",
+  "version": "1.0.0",
+  "description": "BagajGo - Luggage Storage Service",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s .",
+    "dev": "serve -s . -l 3000"
+  },
+  "keywords": [
+    "baggage",
+    "storage",
+    "service"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
